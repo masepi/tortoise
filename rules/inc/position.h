@@ -564,8 +564,6 @@ FORCE_INLINE void Position::create_info(PositionInfo& info) const
 
 			info.checkers = kingByPawnAndKnight | sliderCheckers;
 
-			// print_bitboard(get_king_attacked_by_pawn<color>(kingSquare));
-
 			const int checkerCount = std::popcount(info.checkers);
 			if (checkerCount == 1) {
 				const Square checker = bitboard_to_square(info.checkers);
