@@ -3,7 +3,6 @@
 #include <array>
 #include <assert.h>
 #include <bit>
-#include <immintrin.h>
 #include <stdint.h>
 #include <string>
 
@@ -13,6 +12,7 @@
 #include "move.h"
 #include "piece_attack.h"
 #include "zobrist.h"
+#include "arch.h"
 
 namespace tortoise {
 

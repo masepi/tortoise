@@ -4,14 +4,11 @@
 #include "bitboard.h"
 #include "types.h"
 
-#include <immintrin.h>
+#include "arch.h"
 
 namespace tortoise {
 
-inline uint64_t pext(uint64_t value, uint64_t mask)
-{
-	return _pext_u64(value, mask);
-}
+
 
 struct SliderEntry {
 	const Bitboard* attacks;

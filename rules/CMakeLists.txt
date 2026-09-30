@@ -28,6 +28,7 @@ add_library(rules STATIC
 	${TORTOISE_RULES_HEADERS}
 	${TORTOISE_RULES_SOURCES}
 	src/thread_pool_executor.h
+	inc/arch.h
 )
 
 target_include_directories(rules PRIVATE ${CMAKE_SOURCE_DIR}/rules/inc)

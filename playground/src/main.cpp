@@ -8,7 +8,6 @@
 #include <chrono>
 
 #include "rules.h"
-#include "engine.h"
 #include "perft.h"
 #include "fen.h"
 #include "epd.h"
@@ -16,61 +15,6 @@
 #include "divide.h"
 
 using namespace tortoise;
-
-bool solve_puzzle(std::string_view epd)
-{
-	const Fen::EpdTest test = Fen::load_epd_test(epd);
-
-	const Move expected_move = short_notation_to_move(test.best_move, test.position);
-	
-	std::unique_ptr<Search> search = create_monte_carlo_tree_search_engine(1);
-	
-	Search::Constraints constraints;
-	constraints.depth = 0;
-	constraints.nodes = 0;
-	constraints.steps = 10000;
-	constraints.time = 0;
-	const auto result = search->search(test.position, constraints);
-	const auto best_move = result.best_move();
-
-	bool is_solved = false;
-	std::cout << epd << std::endl;
-	if (expected_move != best_move.move) {
-		std::cout << "FAILED ";
-		std::cout << "Expected: " << test.best_move << " " << "Got: " << move_to_long_notation(best_move.move) << std::endl;
-	} else {
-		std::cout << "PASSED" << std::endl;
-		is_solved = true;
-
-	}
-	std::cout << std::endl;
-	return is_solved;
-}
-
-void solve_puzzle_file(const std::filesystem::path& path)
-{
-	std::ifstream file{path};
-
-	int total = 0;
-	int correct = 0;
-
-	while (!file.eof()) {
-		std::string line;
-		std::getline(file, line);
-
-		if (line.size() < 5) {
-			break;
-		}
-
-		const bool is_solved = solve_puzzle(line);
-		total++;
-		if (is_solved) {
-			correct++;
-		}
-		std::cout << "[" << correct << "/" << total << "]" << std::endl;
-	}
-}
-
 
 void debug_position(std::string_view fen, int depth)
 {

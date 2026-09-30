@@ -4,58 +4,15 @@
 
 #include <cstdint>
 #include <string>
-#include <immintrin.h>
+
 #include <assert.h>
 #include <bit>
 #include "types.h"
-
-
-#if defined(_MSC_VER)
-	#define FORCE_INLINE __forceinline
-#elif defined(__GNUC__) || defined(__clang__)
-	#define FORCE_INLINE inline __attribute__((always_inline))
-#else
-	#define FORCE_INLINE inline
-#endif
+#include "arch.h"
 
 namespace tortoise {
 
-typedef uint64_t Bitboard;
 
-#if defined(__GNUC__)  // GCC, Clang, ICC
-
-inline Square lsb(Bitboard b) 
-{
-	return static_cast<Square>(std::countr_zero(b));
-}
-
-#elif defined(_MSC_VER)  // MSVC
-
-#ifdef _WIN64 
-
-inline Square lsb(Bitboard b)
-{
-	unsigned long index;
-	_BitScanForward64(&index, b);
-	return static_cast<Square>(index);
-}
-
-#else 
-
-inline Square lsb(Bitboard b) 
-{
-	unsigned long index;
-	if (b & 0xffffffff) {
-		_BitScanForward(&index, static_cast<int32_t>(b));
-		return static_cast<Square>(index);
-	} else {
-		_BitScanForward(&index, static_cast<int32_t>(b >> 32));
-		return static_cast<Square>(index + 32);
-	}
-}
-
-#endif
-#endif
 
 inline Square pop_lsb(Bitboard& b)
 {

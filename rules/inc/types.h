@@ -1,8 +1,11 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include "arch.h"
 
 namespace tortoise {
+
+typedef uint64_t Bitboard;
 
 enum Direction : int {
 	Left = -1,
@@ -349,5 +352,11 @@ inline std::string piece_type_to_string(PieceType type)
 		return "";
 	}
 }
+
+FORCE_INLINE Square lsb(Bitboard b)
+{
+    return static_cast<Square>(countr_zero(b));
+}
+
 
 } // namespace tortoise
